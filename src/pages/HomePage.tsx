@@ -4,7 +4,6 @@ import { HeroSection } from '../components/sections/HeroSection';
 import { DifferentialsSection } from '../components/sections/DifferentialsSection';
 import { CategoriesSection } from '../components/sections/CategoriesSection';
 import { FeaturedProductsSection } from '../components/sections/FeaturedProductsSection';
-import { SleepAdvisorSection } from '../components/sections/SleepAdvisorSection';
 import { OurStoreSection } from '../components/sections/OurStoreSection';
 import { AboutCastorSection } from '../components/sections/AboutCastorSection';
 import { TestimonialsSection } from '../components/sections/TestimonialsSection';
@@ -37,7 +36,6 @@ export const HomePage: React.FC = () => {
         selectedCategorySlug={selectedCategory}
         onCategoryChange={(slug) => setSelectedCategory(slug)}
       />
-      <SleepAdvisorSection />
       <OurStoreSection />
       <AboutCastorSection />
       <TestimonialsSection />
@@ -45,4 +43,3 @@ export const HomePage: React.FC = () => {
     </main>
   );
 };
-

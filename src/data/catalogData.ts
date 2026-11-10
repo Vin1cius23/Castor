@@ -10,25 +10,43 @@ export interface ProductCategory {
   id: string;
   slug: string;
   name: string;
+  shortFilterLabel?: string;
   subtitle: string;
+  editorialTitle: string;
+  supportingPhrase: string;
   description: string;
   image: string;
   layoutSpan: 'large' | 'medium' | 'wide' | 'standard';
   highlights: string[];
 }
 
+export type FirmnessLevel = 'Macio' | 'Médio' | 'Firme';
+
+/**
+ * Estrutura centralizada de produtos para fácil edição futura.
+ * Basta alterar nome, categoria, descrição, firmeza, tecnologia, medidas e imagem.
+ */
 export interface ProductItem {
   id: string;
   name: string;
   category: string;
-  categorySlug: string;
-  shortDescription: string;
-  detailedDescription: string;
-  features: string[];
+  categorySlug:
+    | 'colchoes'
+    | 'camas-box'
+    | 'cabeceiras'
+    | 'travesseiros'
+    | 'estofados'
+    | 'poltronas'
+    | 'acessorios-para-cama';
+  description: string;
+  firmness: FirmnessLevel;
+  technology: string;
+  sizes: string[];
   image: string;
-  featured: boolean;
-  isDemoReference: true;
-  demoReferenceLabel: string;
+  /** Define o produto principal exibido no card largo de destaque na Home */
+  isMainHighlight?: boolean;
+  /** Define os produtos exibidos na grade de 3 colunas da Home */
+  featured?: boolean;
 }
 
 export interface BrandMilestone {
@@ -39,8 +57,169 @@ export interface BrandMilestone {
 }
 
 /**
+ * Link oficial de WhatsApp para consulta de modelos na Vitrine e Catálogo.
+ * Inclui o nome do modelo como parâmetro de texto quando acionado.
+ */
+export const WHATSAPP_CATALOG_BASE_LINK = 'https://wa.me/message/UBIY5MDBGAFEJ1';
+
+export function getProductWhatsAppLink(modelName: string): string {
+  const message = `Olá! Gostaria de consultar informações, medidas e condições sobre o ${modelName}.`;
+  return `${WHATSAPP_CATALOG_BASE_LINK}?text=${encodeURIComponent(message)}`;
+}
+
+/**
+ * PRODUTOS CENTRALIZADOS (PLACEHOLDERS IDENTIFICÁVEIS PARA SUBSTITUIÇÃO PELO CATÁLOGO OFICIAL)
+ * Edite este array para atualizar os modelos exibidos na Home e na página /produtos.
+ */
+export const CATALOG_PRODUCTS: ProductItem[] = [
+  {
+    id: 'modelo-castor-01',
+    name: 'Modelo Castor 01',
+    category: 'Colchões',
+    categorySlug: 'colchoes',
+    description:
+      'Colchão principal em destaque com acabamento refinado e composição pensada para noites de extremo conforto.',
+    firmness: 'Médio',
+    technology: 'Molas Ensacadas • Pillow Top',
+    sizes: ['Solteiro', 'Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=85',
+    isMainHighlight: true,
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-02',
+    name: 'Modelo Castor 02',
+    category: 'Colchões',
+    categorySlug: 'colchoes',
+    description:
+      'Toque envolvente e acolhimento suave para quem prioriza sensação de maciez ao deitar.',
+    firmness: 'Macio',
+    technology: 'Molas Ensacadas • Pillow Top',
+    sizes: ['Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1000&q=85',
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-03',
+    name: 'Modelo Castor 03',
+    category: 'Colchões',
+    categorySlug: 'colchoes',
+    description:
+      'Sustentação estável e suporte firme para alinhamento postural durante o descanso.',
+    firmness: 'Firme',
+    technology: 'Espuma',
+    sizes: ['Solteiro', 'Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=1000&q=85',
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-04',
+    name: 'Modelo Castor 04',
+    category: 'Camas Box',
+    categorySlug: 'camas-box',
+    description:
+      'Base estruturada com amplo espaço interno e acabamento elegante para compor o dormitório.',
+    firmness: 'Firme',
+    technology: 'Base Box Baú',
+    sizes: ['Solteiro', 'Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=85',
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-05',
+    name: 'Modelo Castor 05',
+    category: 'Cabeceiras',
+    categorySlug: 'cabeceiras',
+    description:
+      'Cabeceira estofada com design contemporâneo que valoriza a composição da cama.',
+    firmness: 'Médio',
+    technology: 'Painel Estofado',
+    sizes: ['Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=85',
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-06',
+    name: 'Modelo Castor 06',
+    category: 'Travesseiros',
+    categorySlug: 'travesseiros',
+    description:
+      'Apoio cervical equilibrado e toque macio para complementar a experiência do colchão.',
+    firmness: 'Macio',
+    technology: 'Espuma • Conforto Cervical',
+    sizes: ['Padrão', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=1000&q=85',
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-07',
+    name: 'Modelo Castor 07',
+    category: 'Poltronas',
+    categorySlug: 'poltronas',
+    description:
+      'Poltrona de descanso com linhas elegantes para suítes, quartos e espaços de leitura.',
+    firmness: 'Médio',
+    technology: 'Espuma • Estrutura Estofada',
+    sizes: ['Medida Única'],
+    image:
+      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=85',
+    featured: true,
+  },
+  {
+    id: 'modelo-castor-08',
+    name: 'Modelo Castor 08',
+    category: 'Estofados',
+    categorySlug: 'estofados',
+    description:
+      'Estofado amplo e confortável pensado para momentos de pausa e convivência.',
+    firmness: 'Médio',
+    technology: 'Espuma • Assento Conforto',
+    sizes: ['2 Lugares', '3 Lugares'],
+    image:
+      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85',
+    featured: false,
+  },
+  {
+    id: 'modelo-castor-09',
+    name: 'Modelo Castor 09',
+    category: 'Acessórios',
+    categorySlug: 'acessorios-para-cama',
+    description:
+      'Linha de proteção e enxoval para preservar o colchão com toque agradável no dia a dia.',
+    firmness: 'Macio',
+    technology: 'Proteção Impermeável • Têxtil',
+    sizes: ['Solteiro', 'Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=85',
+    featured: false,
+  },
+  {
+    id: 'modelo-castor-10',
+    name: 'Modelo Castor 10',
+    category: 'Colchões',
+    categorySlug: 'colchoes',
+    description:
+      'Equilíbrio entre acolhimento inicial e suporte individual para noites tranquilas.',
+    firmness: 'Médio',
+    technology: 'Molas Ensacadas',
+    sizes: ['Solteiro', 'Casal', 'Queen', 'King'],
+    image:
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1000&q=85',
+    featured: false,
+  },
+];
+
+// Mantém exportação compatível
+export const FEATURED_PRODUCTS = CATALOG_PRODUCTS;
+
+/**
  * 4. SEÇÃO DE DIFERENCIAIS
- * Título exato: "Qualidade que transforma suas noites."
  */
 export const DIFFERENTIALS_DATA: DifferentialItem[] = [
   {
@@ -78,15 +257,18 @@ export const DIFFERENTIALS_DATA: DifferentialItem[] = [
 ];
 
 /**
- * 5. CATEGORIAS DE PRODUTOS
- * Título exato: "Encontre o conforto ideal para você."
+ * 5. CATEGORIAS DE PRODUTOS (Com título editorial curto e frase de apoio para cada categoria)
  */
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
   {
     id: 'colchoes',
     slug: 'colchoes',
     name: 'Colchões',
+    shortFilterLabel: 'Colchões',
     subtitle: 'Molas Pocket System® & Espumas Selecionadas',
+    editorialTitle: 'A ciência do descanso em sua forma mais pura.',
+    supportingPhrase:
+      'Modelos em molas ensacadas e espumas selecionadas com diferentes níveis de firmeza para acolher cada biotipo.',
     description:
       'Soluções em colchões de molas ensacadas individualmente (Pocket System® — exclusivo da Castor no Brasil) e colchões de espuma em diferentes densidades e níveis de conforto.',
     image:
@@ -102,7 +284,11 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     id: 'camas-box',
     slug: 'camas-box',
     name: 'Camas Box',
+    shortFilterLabel: 'Camas Box',
     subtitle: 'Tradicionais, Baú & Cama Acoplada',
+    editorialTitle: 'Base sólida, proporção elegante e funcionalidade.',
+    supportingPhrase:
+      'Estruturas tradicionais, opções com baú interno e modelos com cama auxiliar para otimizar seu dormitório.',
     description:
       'Bases estruturadas com madeira de reflorestamento, incluindo boxes tradicionais, boxes baú para otimização inteligente de espaço e boxes com cama auxiliar acoplada.',
     image:
@@ -118,7 +304,11 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     id: 'cabeceiras',
     slug: 'cabeceiras',
     name: 'Cabeceiras',
+    shortFilterLabel: 'Cabeceiras',
     subtitle: 'Design & Acabamento para o Dormitório',
+    editorialTitle: 'Moldura arquitetônica para o seu quarto.',
+    supportingPhrase:
+      'Acabamentos estofados e texturas neutras que transformam a cama no ponto focal da suíte.',
     description:
       'Cabeceiras estofadas e estruturadas que emolduram a cama com elegância arquitetônica, agregando conforto visual e apoio ergonômico ao quarto.',
     image:
@@ -134,7 +324,11 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     id: 'travesseiros',
     slug: 'travesseiros',
     name: 'Travesseiros',
+    shortFilterLabel: 'Travesseiros',
     subtitle: 'Alinhamento Cervical & Maciez',
+    editorialTitle: 'O complemento essencial para um sono reparador.',
+    supportingPhrase:
+      'Opções de altura e maciez pensadas para harmonizar o apoio cervical ao suporte do seu colchão.',
     description:
       'Linha diversificada de travesseiros desenvolvidos para complementar o suporte do colchão, favorecendo o alinhamento adequado da cabeça e do pescoço durante o repouso.',
     image:
@@ -150,7 +344,11 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     id: 'estofados',
     slug: 'estofados',
     name: 'Estofados',
+    shortFilterLabel: 'Estofados',
     subtitle: 'Conforto Castor para Áreas de Convivência',
+    editorialTitle: 'Aconchego e sofisticação para receber e relaxar.',
+    supportingPhrase:
+      'A tradição em espumas e ergonomia da Castor traduzida em estofados elegantes para o living.',
     description:
       'Sofás e estofados que levam a tradição em espumas e ergonomia da Castor para a sala de estar, combinando estética contemporânea e aconchego.',
     image:
@@ -166,7 +364,11 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     id: 'poltronas',
     slug: 'poltronas',
     name: 'Poltronas',
+    shortFilterLabel: 'Poltronas',
     subtitle: 'Leitura, Descanso & Decoração',
+    editorialTitle: 'Um convite à pausa e à contemplação.',
+    supportingPhrase:
+      'Peças de presença sutil e desenho ergonômico para valorizar suítes, salas e recantos de leitura.',
     description:
       'Poltronas desenhadas para criar recantos de leitura, relaxamento e contemplação no quarto ou no living, unindo presença decorativa e ergonomia.',
     image:
@@ -182,7 +384,11 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     id: 'acessorios-para-cama',
     slug: 'acessorios-para-cama',
     name: 'Acessórios para cama',
+    shortFilterLabel: 'Acessórios',
     subtitle: 'Capas Impermeáveis, Protetores & Roupas de Cama',
+    editorialTitle: 'Cuidado, proteção e toque suave todos os dias.',
+    supportingPhrase:
+      'Protetores impermeáveis e enxoval selecionados para preservar seu colchão e elevar o conforto tátil.',
     description:
       'Capas impermeáveis, protetores de colchão e enxoval selecionados para preservar a integridade do seu colchão e elevar a sensação de conforto no dia a dia.',
     image:
@@ -193,183 +399,6 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
       'Roupas de cama de toque suave e acabamento elegante',
       'Complementos pensados para a experiência completa do sono',
     ],
-  },
-];
-
-/**
- * 6. PRODUTOS EM DESTAQUE
- * Título exato: "Conheça alguns dos nossos destaques."
- * REGRA 6 & 17.5: Conteúdo demonstrativo claramente identificado como exemplo/referência
- * das linhas comercializadas na loja, sem inventar preços, disponibilidade ou modelos não confirmados.
- */
-export const FEATURED_PRODUCTS: ProductItem[] = [
-  {
-    id: 'colchao-molas-pocket-system',
-    name: 'Linha Colchões Pocket System® Castor',
-    category: 'Colchões',
-    categorySlug: 'colchoes',
-    shortDescription:
-      'Colchões com tecnologia de molas ensacadas individualmente (Pocket System® — exclusivo da Castor no Brasil), projetados para oferecer suporte anatômico e estabilidade individual.',
-    detailedDescription:
-      'Representação demonstrativa da linha de colchões com molas Pocket System® comercializada na Exclusiva Castor de Piracicaba. O sistema de molas ensacadas individualmente proporciona adaptação progressiva aos contornos do corpo e reduz a transferência de movimentos entre o casal. Consulte nossa equipe para conhecer os modelos e medidas disponíveis em nosso showroom.',
-    features: [
-      'Tecnologia Pocket System® exclusiva da Castor no Brasil',
-      'Estabilidade individual de movimentos para o casal',
-      'Camadas de conforto para acolhimento ergonômico',
-      'Disponível para experimentação presencial no showroom',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1000&q=85',
-    featured: true,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'colchao-espuma-selecionada',
-    name: 'Linha Colchões de Espuma Castor',
-    category: 'Colchões',
-    categorySlug: 'colchoes',
-    shortDescription:
-      'Colchões de espuma desenvolvidos com rigoroso controle laboratorial de qualidade, oferecendo opções de suporte equilibrado para diferentes biotipos.',
-    detailedDescription:
-      'Representação demonstrativa da linha de colchões de espuma Castor disponível em nossa unidade de Piracicaba. Produzidos sob rigorosos padrões de controle de qualidade, atendem diferentes preferências de sustentação e maciez. Fale com um especialista para orientação personalizada conforme seu biotipo.',
-    features: [
-      'Espumas produzidas com monitoramento laboratorial Castor',
-      'Opções de firmeza e suporte para diferentes necessidades',
-      'Acabamento em tecidos de toque agradável',
-      'Orientação especializada em loja para escolha adequada',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=1000&q=85',
-    featured: true,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'conjunto-box-bau-tradicional',
-    name: 'Linha Camas Box Baú & Tradicional Castor',
-    category: 'Camas Box',
-    categorySlug: 'camas-box',
-    shortDescription:
-      'Bases estruturadas em versões tradicional, baú com abertura assistida e cama acoplada, unindo sustentação firme e aproveitamento funcional do espaço.',
-    detailedDescription:
-      'Representação demonstrativa da linha de Camas Box Castor (Tradicional, Box Baú e Box com Cama Acoplada). Estrutura produzida com madeira de reflorestamento e acabamento coordenado com os colchões e cabeceiras da marca.',
-    features: [
-      'Versões Tradicional, Box Baú e Box com Cama Acoplada',
-      'Estrutura com madeira de reflorestamento',
-      'Excelente aproveitamento interno na versão Baú',
-      'Design alinhado aos colchões da marca Castor',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=85',
-    featured: true,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'cabeceira-estofada-castor',
-    name: 'Linha Cabeceiras Estofadas & Móveis',
-    category: 'Cabeceiras',
-    categorySlug: 'cabeceiras',
-    shortDescription:
-      'Cabeceiras com acabamento sofisticado e proporções equilibradas para valorizar a estética do dormitório e proporcionar apoio confortável.',
-    detailedDescription:
-      'Representação demonstrativa da curadoria de cabeceiras disponível na Exclusiva Castor de Piracicaba. Desenvolvidas para compor conjuntos harmônicos com as camas box da marca e transformar o visual do quarto.',
-    features: [
-      'Estética contemporânea em tons neutros e elegantes',
-      'Apoio acolchoado confortável para leitura na cama',
-      'Composição harmônica com diferentes tamanhos de cama box',
-      'Consulte opções de revestimentos e dimensões na loja',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1540518614846-7ede433c4576?auto=format&fit=crop&w=1000&q=85',
-    featured: true,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'travesseiros-conforto-castor',
-    name: 'Linha Travesseiros Castor',
-    category: 'Travesseiros',
-    categorySlug: 'travesseiros',
-    shortDescription:
-      'Travesseiros projetados para complementar a ergonomia do colchão, proporcionando maciez e suporte adequado para a região cervical.',
-    detailedDescription:
-      'Representação demonstrativa da linha de travesseiros comercializada na Exclusiva Castor de Piracicaba. Experimente presencialmente em nosso showroom para identificar a altura e o toque ideais para sua posição de dormir.',
-    features: [
-      'Diferentes perfis de altura e sustentação',
-      'Toque macio e excelente recuperação de volume',
-      'Ideal para testar em conjunto com seu colchão Castor',
-      'Consulte opções disponíveis para pronta-entrega',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=1000&q=85',
-    featured: true,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'estofados-poltronas-castor',
-    name: 'Linha Estofados & Poltronas de Descanso',
-    category: 'Poltronas',
-    categorySlug: 'poltronas',
-    shortDescription:
-      'Poltronas e estofados selecionados para integrar conforto ergonômico e elegância decorativa a suítes, salas de estar e espaços de leitura.',
-    detailedDescription:
-      'Representação demonstrativa da curadoria de poltronas e estofados disponível na Exclusiva Castor de Piracicaba. Produtos desenvolvidos com o mesmo cuidado em espumas e conforto que consagrou a marca Castor.',
-    features: [
-      'Ergonomia pensada para momentos de pausa e leitura',
-      'Estética atemporal que valoriza dormitórios e livings',
-      'Espumas de alta qualidade e acabamento refinado',
-      'Atendimento consultivo para escolha do modelo ideal',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=85',
-    featured: true,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'estofado-living-castor',
-    name: 'Linha Estofados para Living Castor',
-    category: 'Estofados',
-    categorySlug: 'estofados',
-    shortDescription:
-      'Estofados amplos e acolhedores que levam a tradição de conforto da Castor para os ambientes de convivência da sua casa.',
-    detailedDescription:
-      'Representação demonstrativa da categoria de estofados disponível na Exclusiva Castor de Piracicaba. Consulte nossa equipe pelo WhatsApp ou visite nosso showroom em São Dimas para conhecer os modelos em exposição.',
-    features: [
-      'Conforto superior para salas de estar e home theater',
-      'Estrutura resistente e acabamento cuidadoso',
-      'Curadoria pensada para clientes exigentes',
-      'Consulte disponibilidade e medidas via WhatsApp',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85',
-    featured: false,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
-  },
-  {
-    id: 'capas-impermeaveis-roupas-cama',
-    name: 'Capas Impermeáveis & Roupas de Cama',
-    category: 'Acessórios para cama',
-    categorySlug: 'acessorios-para-cama',
-    shortDescription:
-      'Capas protetoras impermeáveis e enxoval de cama para proteger seu investimento e proporcionar noites ainda mais agradáveis.',
-    detailedDescription:
-      'Representação demonstrativa da linha de acessórios para cama comercializada na Exclusiva Castor de Piracicaba, incluindo capas impermeáveis e roupas de cama para diferentes medidas de colchão.',
-    features: [
-      'Proteção eficaz contra líquidos e agentes externos',
-      'Preservação da higiene e conservação do colchão',
-      'Opções compatíveis com diversas medidas e alturas',
-      'Toque confortável que não interfere na maciez do colchão',
-    ],
-    image:
-      'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=85',
-    featured: false,
-    isDemoReference: true,
-    demoReferenceLabel: 'Item demonstrativo de referência da categoria • Consulte modelos em loja',
   },
 ];
 
@@ -439,4 +468,3 @@ export const VERIFIED_BRAND_CREDENTIALS = [
     subtitle: 'Madeira de reflorestamento, logística reversa e Pacto Global',
   },
 ];
-
